@@ -29,7 +29,7 @@ from program_feedback import find_position
 
 class APPSBaseDataset(torch.utils.data.Dataset):
     def __init__(self, dataroot, problem_dirs, model, max_tokens, sample_mode, 
-                 tuning_mode, max_src_tokens, relative_returns, memory_length=-1, detailed_reward=False, detailed_weight=0, ratio_reward=False, update_root='', detailed_type=0):
+                 tuning_mode, max_src_tokens, relative_returns, memory_length=-1, fine_grained_feedback=False, fine_grained_weight=0, adaptive_feedback=False, update_root='', fine_grained_type=0):
         self.dataroot = dataroot
         self.problem_dirs = problem_dirs 
 
@@ -41,11 +41,11 @@ class APPSBaseDataset(torch.utils.data.Dataset):
         self.max_tokens = max_tokens
         self.max_src_tokens = max_src_tokens
         self.memory_length = memory_length
-        self.detailed_reward = detailed_reward
-        self.detailed_weight = detailed_weight
-        self.ratio_reward = ratio_reward
+        self.fine_grained_feedback = fine_grained_feedback
+        self.fine_grained_weight = fine_grained_weight
+        self.adaptive_feedback = adaptive_feedback
         self.online_root = update_root
-        self.detailed_type = detailed_type
+        self.fine_grained_type = fine_grained_type
 
         self.samples = []  # sample (question, starter_code, solution, answer_type)
         self.all_error_types, self.all_error_subtypes, self.all_baseline_error_types = [], [], []
@@ -100,10 +100,10 @@ class APPSBaseDataset(torch.utils.data.Dataset):
         info = []
 
         for idx, code in enumerate(sols['code']):
-            if not self.ratio_reward:
+            if not self.adaptive_feedback:
                 baseline_pass_ratio = None
                 sols['pass_ratio'][idx] = None
-            if not self.detailed_reward:
+            if not self.fine_grained_feedback:
                 samples.append((sols['prompt'][idx], code,
                                 sols['gt_error_type'][idx], sols['error_hidden_states'][idx], baseline_error_type, sols['pass_ratio'][idx], baseline_pass_ratio))
             else:
@@ -494,12 +494,12 @@ class APPSBaseDataset(torch.utils.data.Dataset):
 
     def sample_rl_task(self, item):
         # 重要!!!!!生成 sample 的时候，保存的 input_ids 只要 input; label 只要 label，且没有end of token，在这里再 pad;
-        if not self.detailed_reward:
+        if not self.fine_grained_feedback:
             input_ids, label_ids, gt_error, error_logit, baseline_error, gen_pass_ratio, baseline_pass_ratio = item
         else:
             input_ids, label_ids, gt_error, error_logit, baseline_error, gen_pass_ratio, baseline_pass_ratio, error_line, reward_type = item
 
-            detailed_error_mask = find_position(self.tokenizer, label_ids, error_line, reward_type).astype(float)
+            fine_grained_error_mask = find_position(self.tokenizer, label_ids, error_line, reward_type).astype(float)
 
         # gt_error, error_logit, baseline_error = info
 
@@ -509,10 +509,10 @@ class APPSBaseDataset(torch.utils.data.Dataset):
 
         if self.relative_returns:
             curr_reward = dsutils.get_reward_from_error_type(gt_error, gen_pass_ratio)
-            if self.detailed_reward and self.detailed_type == 1:
+            if self.fine_grained_feedback and self.fine_grained_type == 1:
                 t = torch.zeros_like(rewards)
-                t[:len(detailed_error_mask)] = self.detailed_weight * len(detailed_error_mask) / len(
-                    detailed_error_mask == 1) * torch.tensor(detailed_error_mask)
+                t[:len(fine_grained_error_mask)] = self.fine_grained_weight * len(fine_grained_error_mask) / len(
+                    fine_grained_error_mask == 1) * torch.tensor(fine_grained_error_mask)
                 curr_reward = curr_reward - t
                 # print("curr_reward:", curr_reward)
                 # print("t:", t)
@@ -525,9 +525,9 @@ class APPSBaseDataset(torch.utils.data.Dataset):
             rewards *= dsutils.get_reward_from_error_type(gt_error)
 
 
-        if self.detailed_reward and self.detailed_type == 0:
+        if self.fine_grained_feedback and self.fine_grained_type == 0:
             t = torch.zeros_like(rewards)
-            t[:len(detailed_error_mask)] = self.detailed_weight * len(detailed_error_mask) / len(detailed_error_mask == 1) * torch.tensor(detailed_error_mask)
+            t[:len(fine_grained_error_mask)] = self.fine_grained_weight * len(fine_grained_error_mask) / len(fine_grained_error_mask == 1) * torch.tensor(fine_grained_error_mask)
             rewards = rewards - t
             # print("rewards:", rewards)
             # print("t:", t)

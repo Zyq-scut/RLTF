@@ -25,7 +25,7 @@ import copy
 from utils.testing_util import run_test
 
 
-def eval_one_problems_online(problem_id, gen_codes, test_path, go_on=True, ratio_reward=False):
+def eval_one_problems_online(problem_id, gen_codes, test_path, go_on=True, adaptive_feedback=False):
     real_index = problem_id
     problem = test_path + '{}'.format(str(real_index).zfill(4))
     print('Testing sample {}'.format(problem))
@@ -54,7 +54,7 @@ def eval_one_problems_online(problem_id, gen_codes, test_path, go_on=True, ratio
                 final_result = -1
             elif False in curr_results:
                 final_result = False
-                if ratio_reward:
+                if adaptive_feedback:
                     pass_num = 0
                     for r in curr_results:
                         if r == True:

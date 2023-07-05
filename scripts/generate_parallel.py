@@ -13,7 +13,7 @@ import torch
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate program parallely.')
-    parser.add_argument('--model_path', type=str, default='exps/codet5-large_rl_bs4x8_lr2e-06_offline_v1_goon_sourcelen800_detailed0/checkpoint-5000',
+    parser.add_argument('--model_path', type=str, default='exps/codet5-large_rl_bs4x8_lr2e-06_offline_v1_goon_sourcelen800_fine-grained0/checkpoint-5000',
                         help='path for actor model')
     parser.add_argument('--tokenizer_path', type=str, default='./models/codet5-base', help='path for tokenizer')
     parser.add_argument('--test_path', type=str, default='./data/APPS/test/', help='path for test data')
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     K = 8
     for k in range(K):
         model_name = args.model_path.split('/')[-1]
-        output_path = os.path.join(args.output_path, model_name + f'_{args.num_seqs:04d}_rl_bs4x8_lr2e-06_offline_v1_goon_sourcelen800_detailed0-{k}')
+        output_path = os.path.join(args.output_path, model_name + f'_{args.num_seqs:04d}_rl_bs4x8_lr2e-06_offline_v1_goon_sourcelen800_fine-grained0-{k}')
         # output_path = args.output_path
 
         gpu_num = torch.cuda.device_count()

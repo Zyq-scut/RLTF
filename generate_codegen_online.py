@@ -25,11 +25,11 @@ import traceback
 parser = argparse.ArgumentParser(description="")
 
 parser.add_argument("--interval", default=600, type=int, help='max time one use model generate')
-parser.add_argument("--model_path", type=str, default='exps/codegen-2B-mono_rl_bs1x32_lr2e-06_online_v1_goon_detailed0.3_ratio/', help='Path of trained model')
+parser.add_argument("--model_path", type=str, default='exps/codegen-2B-mono_rl_bs1x32_lr2e-06_online_v1_goon_fine-grained0.3_ratio/', help='Path of trained model')
 parser.add_argument("--base_path", type=str, default='exps/codegen_copy/checkpoint-29000', help='Path of based model')
 parser.add_argument('--critic_path', default='exps/codegen-350M-mono_critic_bs4x2_lr2e-05/final_checkpoint', type=str, help='path to cirtic model')
 parser.add_argument("--train_path", default="data/APPS/train/", type=str, help='')
-parser.add_argument("--output_path", default="online_data_codegen/goon_detailed0.3_ratio/", type=str, help='')
+parser.add_argument("--output_path", default="online_data_codegen/goon_fine-grained0.3_ratio/", type=str, help='')
 parser.add_argument("--tokenizer_path", default='models/codegen-2B-mono', type=str, help='Path to the tokenizer')
 parser.add_argument('--test_example_path', type=str, default='data/APPS_test_example_tests/', help='path for test example data')
 parser.add_argument("--num_seqs", default=10, type=int, help='Number of total generated programs per test sample')
@@ -38,8 +38,8 @@ parser.add_argument('--source_len', default=800, type=int, help='Maximum length 
 parser.add_argument("--binary_prediction", default=0, type=int, help='if model is a critic model, enable this for binary classification i.e. passed test or failed test only')
 parser.add_argument("--temperature", default=0.6, type=float, help='temperature for sampling tokens')
 parser.add_argument('--random_temperature', type=bool, default=False, const=True, nargs='?', help='random temperature or not')
-parser.add_argument("--ratio_reward", default=1, type=int, help='[-0.3, 1] ratio reward or not')
-parser.add_argument("--detailed_reward", default=1, type=int, help='detailed reward or not')
+parser.add_argument("--adaptive_feedback", default=1, type=int, help='[-0.3, 1] adaptive feedback or not')
+parser.add_argument("--fine_grained_feedback", default=1, type=int, help='fine-grained feedback or not')
 parser.add_argument("--go_on", default=1, type=int, help='go on ot not')
 
 args = parser.parse_args()
@@ -110,8 +110,8 @@ def generate_one_problem(model, tokenizer, critic_model, problem_id, device):
             baseline_output_programs.append(tokenizer.decode(output_id, skip_special_tokens=True))
 
 
-        baseline_results = eval_one_problems_online(problem_id, baseline_output_programs, args.train_path, go_on=bool(args.go_on), ratio_reward=bool(args.ratio_reward))
-        gen_results = eval_one_problems_online(problem_id, gen_output_programs, args.train_path, go_on=bool(args.go_on), ratio_reward=bool(args.ratio_reward))
+        baseline_results = eval_one_problems_online(problem_id, baseline_output_programs, args.train_path, go_on=bool(args.go_on), adaptive_feedback=bool(args.adaptive_feedback))
+        gen_results = eval_one_problems_online(problem_id, gen_output_programs, args.train_path, go_on=bool(args.go_on), adaptive_feedback=bool(args.adaptive_feedback))
 
         input_texts, input_codes, gt_error_types = generate_critic_inputs(args, test_case_path, prompt_path, "", tokenizer, starter_path, solutions=gen_results)
         text_tensor = torch.tensor(input_texts).to(device)
@@ -124,7 +124,7 @@ def generate_one_problem(model, tokenizer, critic_model, problem_id, device):
         error_line, error_info, reward_type = [], [], []
         for r in gen_results:
             final_pass_ratio.append(r['pass_ratio'])
-            if args.detailed_reward:
+            if args.fine_grained_feedback:
                 cur_error_line, cur_error_info, cur_reward_type = errorfinder.find_error_line(r['result'], r['error'], r['sol'])
                 error_line.append(cur_error_line)
                 error_info.append(cur_error_info)

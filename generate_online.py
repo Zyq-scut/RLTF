@@ -37,8 +37,8 @@ parser.add_argument('--source_len', default=800, type=int, help='Maximum length 
 parser.add_argument("--binary_prediction", default=0, type=int, help='if model is a critic model, enable this for binary classification i.e. passed test or failed test only')
 parser.add_argument("--temperature", default=0.6, type=float, help='temperature for sampling tokens')
 parser.add_argument('--random_temperature', type=bool, default=False, const=True, nargs='?', help='random temperature or not')
-parser.add_argument("--ratio_reward", default=1, type=int, help='[-0.3, 1] ratio reward or not')
-parser.add_argument("--detailed_reward", default=1, type=int, help='detailed reward or not')
+parser.add_argument("--adaptive_feedback", default=1, type=int, help='[-0.3, 1] adaptive feedback or not')
+parser.add_argument("--fine_grained_feedback", default=1, type=int, help='fine-grained feedback or not')
 parser.add_argument("--go_on", default=1, type=int, help='go on ot not')
 
 args = parser.parse_args()
@@ -102,8 +102,8 @@ def generate_one_problem(model, problem_id):
             baseline_output_programs.append(tokenizer.decode(output_id, skip_special_tokens=True))
 
 
-        baseline_results = eval_one_problems_online(problem_id, baseline_output_programs, args.train_path, go_on=bool(args.go_on), ratio_reward=bool(args.ratio_reward))
-        gen_results = eval_one_problems_online(problem_id, gen_output_programs, args.train_path, go_on=bool(args.go_on), ratio_reward=bool(args.ratio_reward))
+        baseline_results = eval_one_problems_online(problem_id, baseline_output_programs, args.train_path, go_on=bool(args.go_on), adaptive_feedback=bool(args.adaptive_feedback))
+        gen_results = eval_one_problems_online(problem_id, gen_output_programs, args.train_path, go_on=bool(args.go_on), adaptive_feedback=bool(args.adaptive_feedback))
 
 
 
@@ -120,7 +120,7 @@ def generate_one_problem(model, problem_id):
         error_line, error_info, reward_type = [], [], []
         for r in gen_results:
             final_pass_ratio.append(r['pass_ratio'])
-            if args.detailed_reward:
+            if args.fine_grained_feedback:
                 cur_error_line, cur_error_info, cur_reward_type = errorfinder.find_error_line(r['result'], r['error'], r['sol'])
                 error_line.append(cur_error_line)
                 error_info.append(cur_error_info)

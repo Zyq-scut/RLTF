@@ -16,10 +16,10 @@ USE_TF=NO deepspeed --master_port 62000 \
     --relative_returns \
     --deepspeed configs/deepspeed_configs.json \
     --update_freq 50 \
-    --update_root online_data/goon_detailed0.3_ratio \
+    --update_root online_data/goon_fine-grained0.3_adaptive \
     --memory_length 6400 \
     --save_dir_suffix _online_v1_goon \
-    --detailed_reward \
-    --detailed_weight 0.3 \
-    --detailed_type 1 \
-    --ratio_reward
+    --fine_grained_feedback \
+    --fine_grained_weight 0.3 \
+    --fine_grained_type 1 \
+    --adaptive_feedback

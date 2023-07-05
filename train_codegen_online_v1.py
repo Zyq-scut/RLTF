@@ -141,7 +141,7 @@ def get_dataset(args):
         tuning_mode=args.tuning_mode,
         relative_returns=args.relative_returns,
         memory_length=args.memory_length,
-        detailed_reward=args.detailed_reward
+        fine_grained_feedback=args.fine_grained_feedback
     )
 
     return train_data
