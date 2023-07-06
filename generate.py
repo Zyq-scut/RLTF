@@ -49,36 +49,38 @@ def generate_prompt(args, test_case_path, prompt_path, solutions_path, tokenizer
     
     return _input
 
-def generate_critic_inputs(args, test_case_path, prompt_path, solutions_path, tokenizer, 
-                           starter_path=None, gt_solutions=False):    
+
+def generate_critic_inputs(args, test_case_path, prompt_path, solutions_path, tokenizer,
+                           starter_path=None, gt_solutions=False, solutions=None):
     _input = generate_prompt(args, test_case_path, prompt_path, solutions_path, tokenizer, starter_path)
-    
+
     q_tokens = tokenizer.encode(_input, verbose=False, max_length=args.source_len)
     in_tokens = [tokenizer.eos_token_id] * args.source_len
     in_tokens[:len(q_tokens)] = q_tokens
     in_tokens = in_tokens[:args.source_len]
-    
-    solutions = json.load(open(solutions_path, 'r')) 
-    
+
+    if solutions == None:
+        solutions = json.load(open(solutions_path, 'r'))
+
     all_texts = []
-    gt_errors = [] 
-    all_codes = [] 
-    
-    for sol_index, solution in enumerate(solutions):        
-        if gt_solutions: 
+    gt_errors = []
+    all_codes = []
+
+    for sol_index, solution in enumerate(solutions):
+        if gt_solutions:
             solution_str = dsutils.reindent_code(solution)
         else:
             solution_str = dsutils.reindent_code(solution['code'])
-            
-        a_tokens = tokenizer.encode(solution_str)        
-        code = [-100] * args.max_len 
-        code[:len(a_tokens)] = a_tokens         
+
+        a_tokens = tokenizer.encode(solution_str)
+        code = [-100] * args.max_len
+        code[:len(a_tokens)] = a_tokens
         code = code[:args.max_len]
-            
+
         all_texts.append(in_tokens)
         all_codes.append(code)
-        
-        if gt_solutions: 
+
+        if gt_solutions:
             gt_errors.append(dsutils.get_error_type(True, binary=args.binary_prediction))
         else:
             gt_errors.append(dsutils.get_error_type(solution['result'], binary=args.binary_prediction))

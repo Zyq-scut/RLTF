@@ -8,7 +8,7 @@
 USE_TF=NO deepspeed --master_port 62000 \
     train_codegen_online_v1.py \
     --batch-size-per-replica 1 --grad-acc-steps 32 \
-    --epochs 20 --lr 2e-6 \
+    --epochs 200 --lr 2e-6 \
     --save-freq 50 --log-freq 10 --save_total_limit 1000 \
     --fp16 \
     --tuning_mode rl --model codegen-2B-mono \
@@ -16,9 +16,9 @@ USE_TF=NO deepspeed --master_port 62000 \
     --relative_returns \
     --deepspeed configs/deepspeed_configs.json \
     --update_freq 50 \
-    --update_root online_data_codegen/goon_fine-grained0.3_adaptive \
+    --update_root online_data_codegen \
     --memory_length 6400 \
-    --save_dir_suffix _online_v1_goon_fine-grained0.3_adaptive \
+    --save_dir_suffix _online_v1 \
     --fine_grained_feedback \
     --fine_grained_weight 0.3 \
     --fine_grained_type 1 \

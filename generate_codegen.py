@@ -66,20 +66,23 @@ def generate_prompt(args, test_case_path, prompt_path, solutions_path, tokenizer
 
 
 def generate_critic_inputs(args, test_case_path, prompt_path, solutions_path, tokenizer,
-                           starter_path=None, gt_solutions=False):    
-    _input, q_token_ids_1, q_token_ids_2 = generate_prompt(args, test_case_path, prompt_path, solutions_path, tokenizer, starter_path)
+                           starter_path=None, gt_solutions=False, solutions=None):
+    _input, q_token_ids_1, q_token_ids_2 = generate_prompt(args, test_case_path, prompt_path, solutions_path, tokenizer,
+                                                           starter_path)
 
-    solutions = json.load(open(solutions_path, 'r')) 
-    
+    #solutions = json.load(open(solutions_path, 'r'))
+    if solutions == None:
+        solutions = json.load(open(solutions_path, 'r'))
+
     all_texts = []
-    gt_errors = [] 
+    gt_errors = []
     all_codes = []
-    
+
     for sol_index, solution in enumerate(solutions):
         input_ids = []
         label_ids = []
 
-        if gt_solutions: 
+        if gt_solutions:
             solution_str = dsutils.reindent_code(solution)
         else:
             solution_str = dsutils.reindent_code(solution['code'])
@@ -113,7 +116,7 @@ def generate_critic_inputs(args, test_case_path, prompt_path, solutions_path, to
         all_texts.append(input_ids)
         all_codes.append(label_ids)
 
-        if gt_solutions: 
+        if gt_solutions:
             gt_errors.append(dsutils.get_error_type(True, binary=args.binary_prediction))
         else:
             gt_errors.append(dsutils.get_error_type(solution['result'], binary=args.binary_prediction))

@@ -9,12 +9,12 @@ import time
 import os
 import argparse
 import torch
-from generate_codegen_parallel_new import generate_critic_inputs, generate_prompt
+from generate_codegen import generate_critic_inputs, generate_prompt
 from test_one_solution import eval_one_problems_online
 import json
 import pickle as pkl
 import tqdm
-from transformers import RobertaTokenizer, T5ForConditionalGeneration, AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM
 from trainers.modeling_codegen import CodeGenForCausalLM
 import random
 from copy import deepcopy
@@ -25,11 +25,11 @@ import traceback
 parser = argparse.ArgumentParser(description="")
 
 parser.add_argument("--interval", default=600, type=int, help='max time one use model generate')
-parser.add_argument("--model_path", type=str, default='exps/codegen-2B-mono_rl_bs1x32_lr2e-06_online_v1_goon_fine-grained0.3_ratio/', help='Path of trained model')
+parser.add_argument("--model_path", type=str, default='exps/codegen-2B-mono_rl_bs1x32_lr2e-06_online_v1/', help='Path of trained model')
 parser.add_argument("--base_path", type=str, default='exps/codegen_copy/checkpoint-29000', help='Path of based model')
-parser.add_argument('--critic_path', default='exps/codegen-350M-mono_critic_bs4x2_lr2e-05/final_checkpoint', type=str, help='path to cirtic model')
+parser.add_argument('--critic_path', default='models/codegen_finetuned_critic', type=str, help='path to cirtic model')
 parser.add_argument("--train_path", default="data/APPS/train/", type=str, help='')
-parser.add_argument("--output_path", default="online_data_codegen/goon_fine-grained0.3_ratio/", type=str, help='')
+parser.add_argument("--output_path", default="online_data_codegen/", type=str, help='')
 parser.add_argument("--tokenizer_path", default='models/codegen-2B-mono', type=str, help='Path to the tokenizer')
 parser.add_argument('--test_example_path', type=str, default='data/APPS_test_example_tests/', help='path for test example data')
 parser.add_argument("--num_seqs", default=10, type=int, help='Number of total generated programs per test sample')

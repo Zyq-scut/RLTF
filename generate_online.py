@@ -14,7 +14,8 @@ from test_one_solution import eval_one_problems_online
 import json
 import pickle as pkl
 import tqdm
-from transformers import RobertaTokenizer, T5ForConditionalGeneration
+from transformers import RobertaTokenizer
+from trainers.modeling_t5 import T5ForConditionalGeneration
 import random
 from copy import deepcopy
 import signal
@@ -24,11 +25,11 @@ import traceback
 parser = argparse.ArgumentParser(description="")
 
 parser.add_argument("--interval", default=600, type=int, help='max time one use model generate')
-parser.add_argument("--model_path", type=str, default='exps/codet5-large_rl_bs4x8_lr2e-06_online_v1_goon_sourcelen800/', help='Path of trained model')
+parser.add_argument("--model_path", type=str, default='exps/codet5-large_rl_bs4x8_lr2e-06_online_v1/', help='Path of trained model')
 parser.add_argument("--base_path", type=str, default='exps/codet5-large_none_bs4x2_lr2e-05_800_512/checkpoint-16000', help='Path of based model')
 parser.add_argument('--critic_path', default='models/codet5_finetuned_critic', type=str, help='path to cirtic model ')
 parser.add_argument("--train_path", default="data/APPS/train/", type=str, help='train path')
-parser.add_argument("--output_path", default="online_data_goon_samplelen6400_sourcelen800/", type=str, help='train path')
+parser.add_argument("--output_path", default="online_data/", type=str, help='train path')
 parser.add_argument("--tokenizer_path", default='models/codet5-base', type=str, help='Path to the tokenizer')
 parser.add_argument('--test_example_path', type=str, default='data/APPS_test_example_tests/', help='path for test example data')
 parser.add_argument("--num_seqs", default=20, type=int, help='Number of total generated programs per test sample')

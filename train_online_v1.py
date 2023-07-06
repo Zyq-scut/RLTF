@@ -132,7 +132,11 @@ def get_dataset(args):
             tuning_mode=args.tuning_mode,
             relative_returns=args.relative_returns,
             memory_length=args.memory_length,
-            fine_grained_feedback=args.fine_grained_feedback
+            fine_grained_feedback=args.fine_grained_feedback,
+            fine_grained_weight=args.fine_grained_weight,
+            adaptive_feedback=args.adaptive_feedback,
+            update_root=args.update_root,
+            fine_grained_type=args.fine_grained_type,
         )
 
     else:
@@ -150,7 +154,8 @@ def get_dataset(args):
 
 
 def main(args):
-    args.save_dir = args.save_dir + "_online_v1_goon_samplelen12800_sourcelen800_ratio"
+    os.environ["WANDB_MODE"] = "offline"
+    args.save_dir = args.save_dir + args.save_dir_suffix
 
     argsdict = vars(args)
     print(pprint.pformat(argsdict))

@@ -42,7 +42,7 @@ parser.add_argument('--save_total_limit', default=2, type=int, help='total of nu
 parser.add_argument('--update_freq', default=100, type=int, help='freq to update dataset')
 parser.add_argument('--update_root', default='data/APPS/train', type=str, help='update data root')
 parser.add_argument('--memory_length', default=-1, type=int, help='update data root')
-parser.add_argument('--fine_grained_feedback', default=False, action='store_true', help='whether to use detail reward for reinforcement learning')
+parser.add_argument('--fine_grained_feedback', default=False, action='store_true', help='whether to use fine_grained_feedback for reinforcement learning')
 parser.add_argument('--fine_grained_weight', default=0, type=float, help='fine_grained_weight')
 parser.add_argument('--adaptive_feedback', default=False, action='store_true', help='whether to use adaptive feedback for reinforcement learning')
 parser.add_argument('--fine_grained_type', default=1, type=float, help='use fine_grained type')
