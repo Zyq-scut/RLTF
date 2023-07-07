@@ -13,27 +13,47 @@ The code requires some dependencies as specified in `requirements.txt`. Please f
 * **APPS**: Please follow the downloading and preprocessing instructions provided [here](https://github.com/hendrycks/apps). 
 * **MBPP**: The dataset is available [here](https://github.com/google-research/google-research/tree/master/mbpp). 
 
+Download and unzip all files into the data folder.
 ## Models
-
+Coming soon.
 ## Processes 
 
-### Generating Programs
+### Surprised Finetune
+* **CodeT5**:  sh script/train_actor_deepspeed.sh 
+* **CodeGEN**:  sh script/train_actor_codegen_deepspeed.sh
 
-### Running Unit Tests
+### Generating Programs Online
+* **CodeT5**:  python script/generate_online_parallel.py
+* **CodeGEN**:  python script/generate_codegen_online_parallel.py
 
-### Evaluating Programs 
+### Online RL Finetune
+After running the online generation for a short period and accumulating a certain number of samples：
+* **CodeT5**:  sh script/train_actor_rl_online_v1_deepspeed.sh
+* **CodeGEN**: sh script/train_actor_rl_codegen_online_v1_deepspeed.sh
 
-### Training Critic
+### Generate Program, Run Unit Test, Compute pass@k
+Generate Program:
+* **CodeT5**:  python script/generate_parallel.py
+* **CodeGEN**: python script/generate_parallel_codegen.py
 
-### Finetuning with Ground-truth Programs
+Run Unit Test：
+* sh script/run_unit_tests.sh
 
-### Finetuning with Generated Programs
-
+Compute pass@k：
+* python compute_pass_at_k_metric.py
 ## Citation 
 
 If you find the paper or the source code useful to your projects, please cite the following bibtex: 
 <pre>
-XXX
+@misc{Zyq_scut2023,
+  author = {Zyq_scut, liujiate},
+  title = {Project Title},
+  year = {2023},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/Zyq-scut/RLTF}},
+  commit = {d544f508f241462bed62e77555db6971e52ccb49}
+}
 </pre>
 
 
