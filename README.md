@@ -1,7 +1,7 @@
 
 ## RLTF: Reinforcement Learning from Unit Test Feedback <a name="corl"></a>
 
-This is the official code for the paper **RLTF: Reinforcement Learning from Unit Test Feedback**.
+This is the official code for the paper **[RLTF: Reinforcement Learning from Unit Test Feedback](https://openreview.net/pdf?id=hjYmsV6nXZ)**.
 ## Installation  
 
 The code requires some dependencies as specified in `requirements.txt`. Please follow the relevant libraries to install or run: 
