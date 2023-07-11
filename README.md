@@ -1,7 +1,7 @@
 
 ## RLTF: Reinforcement Learning from Unit Test Feedback <a name="corl"></a>
 
-This is the official code for the paper **[RLTF: Reinforcement Learning from Unit Test Feedback](https://openreview.net/pdf?id=hjYmsV6nXZ)**.
+This is the official code for the paper **[RLTF: Reinforcement Learning from Unit Test Feedback](https://arxiv.org/pdf/2307.04349.pdf)**.
 ## Installation  
 
 The code requires some dependencies as specified in `requirements.txt`. Please follow the relevant libraries to install or run: 
@@ -45,14 +45,13 @@ Compute pass@k：
 
 If you find the paper or the source code useful to your projects, please cite the following bibtex: 
 <pre>
-@misc{Zyq_scut2023,
-  author = {Zyq_scut, liujiate},
-  title = {Project Title},
-  year = {2023},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/Zyq-scut/RLTF}},
-  commit = {d544f508f241462bed62e77555db6971e52ccb49}
+@misc{liu2023rltf,
+      title={RLTF: Reinforcement Learning from Unit Test Feedback}, 
+      author={Jiate Liu and Yiqin Zhu and Kaiwen Xiao and Qiang Fu and Xiao Han and Wei Yang and Deheng Ye},
+      year={2023},
+      eprint={2307.04349},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
 }
 </pre>
 
