@@ -1,0 +1,1 @@
+[{"code": "q = int(input())\nfor i in range(q):\n\tn, m, k = map(int, input().split())\n\tif n > k or m > k:\n\t\tprint(-1)\n\telse:\n\t\tif (n + m) % 2 == 0:\n\t\t\tif (n + m) % 2 == 1:\n\t\t\t\tprint(k - 2)\n\t\t\telse:\n\t\t\t\tprint(k - 1)\n\t\telse:\n\t\t\tprint(k - 1)\n", "result": false, "pass_ratio": 0.0}]

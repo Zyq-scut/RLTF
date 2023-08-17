@@ -1,0 +1,1 @@
+[{"code": "primes = [2, 3, 5, 7]\n\ndef is_prime(n):\n\tif n < 2:\n\t\treturn False\n\tif n in primes:\n\t\treturn True\n\tfor i in primes:\n\t\tif i > n:\n\t\t\tbreak\n\t\tif n % i == 0:\n\t\t\treturn False\n\tprimes.append(n)\n\treturn True\n", "result": false, "pass_ratio": 0.75}]

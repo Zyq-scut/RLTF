@@ -1,0 +1,1 @@
+[{"code": "class Solution:\n\tdef findKthPositive(self, arr: List[int], k: int) -> int:\n\t\tmissing = [x+1 for x in range(arr[-1]+1)]\n\t\tfor i in range(k):\n\t\t\tif missing[i] not in arr:\n\t\t\t\tk -= 1\n\t\t\t\tmissing[i] = missing[i] + 1\n\t\treturn missing[k-1]\n", "result": false, "pass_ratio": 0.0}]
