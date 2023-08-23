@@ -736,7 +736,6 @@ class CodeGenForCausalLM(CodeGenPreTrainedModel):
         # critic
         if error_types is not None:
             error_states = self.error_head(hidden_states)
-            # 要不要把 input 的部分去掉，不参与预测？
             error_logits, _ = error_states.max(1)
             error_pred_loss_fct = CrossEntropyLoss()
             error_pred_loss = error_pred_loss_fct(error_logits.view(-1, error_logits.size(-1)), error_types.view(-1))
