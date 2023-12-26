@@ -15,7 +15,7 @@ The code requires some dependencies as specified in `requirements.txt`. Please f
 
 Download and unzip all files into the data folder.
 ## Models
-Coming soon.
+https://huggingface.co/Harvey6/RLTF_codet5
 ## Processes 
 
 ### Surprised Finetune
