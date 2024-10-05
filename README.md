@@ -45,13 +45,15 @@ Compute pass@k：
 
 If you find the paper or the source code useful to your projects, please cite the following bibtex: 
 <pre>
-@misc{liu2023rltf,
-      title={RLTF: Reinforcement Learning from Unit Test Feedback}, 
-      author={Jiate Liu and Yiqin Zhu and Kaiwen Xiao and Qiang Fu and Xiao Han and Wei Yang and Deheng Ye},
+@article{
+      liu2023rltf,
+      title={{RLTF}: Reinforcement Learning from Unit Test Feedback},
+      author={Jiate Liu and Yiqin Zhu and Kaiwen Xiao and QIANG FU and Xiao Han and Yang Wei and Deheng Ye},
+      journal={Transactions on Machine Learning Research},
+      issn={2835-8856},
       year={2023},
-      eprint={2307.04349},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI}
+      url={https://openreview.net/forum?id=hjYmsV6nXZ},
+      note={}
 }
 </pre>
 
