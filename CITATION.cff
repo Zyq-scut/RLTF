@@ -1,0 +1,54 @@
+cff-version: 1.2.0
+message: "If you use this software or paper in your research, please cite it as below."
+title: "RLTF: Reinforcement Learning from Unit Test Feedback"
+type: software
+authors:
+  - family-names: "Liu"
+    given-names: "Jiate"
+  - family-names: "Zhu"
+    given-names: "Yiqin"
+  - family-names: "Xiao"
+    given-names: "Kaiwen"
+  - family-names: "Fu"
+    given-names: "Qiang"
+  - family-names: "Han"
+    given-names: "Xiao"
+  - family-names: "Yang"
+    given-names: "Wei"
+  - family-names: "Ye"
+    given-names: "Deheng"
+repository-code: "https://github.com/Zyq-scut/RLTF"
+url: "https://openreview.net/forum?id=hjYmsV6nXZ"
+keywords:
+  - "RLVR"
+  - "reinforcement learning with verifiable rewards"
+  - "unit test feedback"
+  - "online reinforcement learning"
+  - "code generation"
+  - "large language models"
+preferred-citation:
+  type: article
+  title: "RLTF: Reinforcement Learning from Unit Test Feedback"
+  authors:
+    - family-names: "Liu"
+      given-names: "Jiate"
+    - family-names: "Zhu"
+      given-names: "Yiqin"
+    - family-names: "Xiao"
+      given-names: "Kaiwen"
+    - family-names: "Fu"
+      given-names: "Qiang"
+    - family-names: "Han"
+      given-names: "Xiao"
+    - family-names: "Yang"
+      given-names: "Wei"
+    - family-names: "Ye"
+      given-names: "Deheng"
+  journal: "Transactions on Machine Learning Research"
+  issn: "2835-8856"
+  year: 2023
+  url: "https://openreview.net/forum?id=hjYmsV6nXZ"
+  identifiers:
+    - type: url
+      value: "https://arxiv.org/abs/2307.04349"
+      description: "arXiv preprint"
